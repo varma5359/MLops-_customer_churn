@@ -36,8 +36,9 @@ If the DagsHub repository already contains a separate initial commit, fetch and 
 
 ```powershell
 git fetch dagshub
-git merge dagshub/main --allow-unrelated-histories
-# If README.md conflicts, edit it and keep the complete project README.
+git merge dagshub/main --allow-unrelated-histories --no-commit
+# Keep the complete project README if the initial README conflicts:
+git checkout --ours README.md
 git add README.md
 git commit -m "Merge initial DagsHub repository history"
 git push dagshub main
