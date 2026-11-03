@@ -1,0 +1,50 @@
+stages:
+  validate:
+    cmd: python -m scripts.validate_data --data ${data.path} --report reports/data_validation.json
+    deps:
+      - ${data.path}
+      - scripts/validate_data.py
+      - src/data/validation.py
+    outs:
+      - reports/data_validation.json
+
+  train:
+    cmd: >-
+      python -m src.models.train
+      --data ${data.path}
+      --artifacts artifacts
+      --test-size ${train.test_size}
+      --random-state ${train.random_state}
+    deps:
+      - ${data.path}
+      - src/models/train.py
+      - src/features/preprocessing.py
+      - src/data/validation.py
+      - src/mlops/tracking.py
+    params:
+      - data.path
+      - train.test_size
+      - train.random_state
+    outs:
+      - artifacts/churn_pipeline.joblib
+      - artifacts/metadata.json
+
+  evaluate:
+    cmd: >-
+      python -m src.models.evaluate
+      --data ${data.path}
+      --artifacts artifacts
+      --test-size ${train.test_size}
+      --random-state ${train.random_state}
+    deps:
+      - ${data.path}
+      - artifacts/churn_pipeline.joblib
+      - src/models/evaluate.py
+      - src/mlops/tracking.py
+    params:
+      - data.path
+      - train.test_size
+      - train.random_state
+    metrics:
+      - artifacts/evaluation.json:
+          cache: false
