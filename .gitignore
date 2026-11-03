@@ -27,6 +27,8 @@ env/
 # Local datasets (DVC pointer files are committed; raw bytes are not)
 data/raw/*
 !data/raw/.gitkeep
+!data/raw/*.dvc
+!data/raw/.gitignore
 data/processed/*
 !data/processed/.gitkeep
 
