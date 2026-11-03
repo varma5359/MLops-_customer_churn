@@ -84,7 +84,7 @@ def train(data_path, artifact_dir="artifacts", test_size=0.2, random_state=42):
             "target": TARGET,
             "stage": "training",
         })
-        mlflow.sklearn.log_model(model, artifact_path="model")
+        mlflow.sklearn.log_model(model, artifact_path="model",skops_trusted_types=["numpy.dtype"],)
         mlflow.log_artifact(str(metadata_path), artifact_path="metadata")
 
     return model, X_test, y_test, metadata

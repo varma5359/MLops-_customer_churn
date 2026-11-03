@@ -1,0 +1,94 @@
+schema: '2.0'
+stages:
+  validate:
+    cmd: python -m scripts.validate_data --data 
+      data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv --report 
+      reports/data_validation.json
+    deps:
+    - path: data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: scripts/validate_data.py
+      hash: md5
+      md5: 16be76faf0ffc83b26ad53c90a52ce82
+      size: 453
+    - path: src/data/validation.py
+      hash: md5
+      md5: b7c4bdd0ccd97341e18478d6e864b954
+      size: 3491
+    outs:
+    - path: reports/data_validation.json
+      hash: md5
+      md5: 49a1d3385fea7fa35458ba62c9464a98
+      size: 421
+  train:
+    cmd: python -m src.models.train --data 
+      data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv --artifacts artifacts 
+      --test-size 0.2 --random-state 42
+    deps:
+    - path: data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: src/data/validation.py
+      hash: md5
+      md5: b7c4bdd0ccd97341e18478d6e864b954
+      size: 3491
+    - path: src/features/preprocessing.py
+      hash: md5
+      md5: bf976f1da77800901182b432901ccda5
+      size: 769
+    - path: src/mlops/tracking.py
+      hash: md5
+      md5: 4434be40ec2200124092e37e134c1d03
+      size: 1343
+    - path: src/models/train.py
+      hash: md5
+      md5: 6980eb4ee42310611825fa9b89fa0735
+      size: 3729
+    params:
+      params.yaml:
+        data.path: data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv
+        train.random_state: 42
+        train.test_size: 0.2
+    outs:
+    - path: artifacts/churn_pipeline.joblib
+      hash: md5
+      md5: 449b241030be7a4d49d8919175b7a934
+      size: 8474
+    - path: artifacts/metadata.json
+      hash: md5
+      md5: c83ed3e5d9878f74cc6d0cfa08319a64
+      size: 676
+  evaluate:
+    cmd: python -m src.models.evaluate --data 
+      data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv --artifacts artifacts 
+      --test-size 0.2 --random-state 42
+    deps:
+    - path: artifacts/churn_pipeline.joblib
+      hash: md5
+      md5: 449b241030be7a4d49d8919175b7a934
+      size: 8474
+    - path: data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: src/mlops/tracking.py
+      hash: md5
+      md5: 4434be40ec2200124092e37e134c1d03
+      size: 1343
+    - path: src/models/evaluate.py
+      hash: md5
+      md5: ff6538d4209499c48fceeb5d62b29846
+      size: 3332
+    params:
+      params.yaml:
+        data.path: data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv
+        train.random_state: 42
+        train.test_size: 0.2
+    outs:
+    - path: artifacts/evaluation.json
+      hash: md5
+      md5: 57892f8f33081106000097796b7d9c2b
+      size: 1061

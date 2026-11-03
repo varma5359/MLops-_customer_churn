@@ -1,0 +1,20 @@
+{
+  "file": "data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv",
+  "rows": 7043,
+  "columns": 21,
+  "missing_values": {},
+  "duplicate_rows": 0,
+  "duplicate_customer_ids": 0,
+  "target_distribution": {
+    "No": 5174,
+    "Yes": 1869
+  },
+  "unexpected_columns": [],
+  "missing_columns": [],
+  "invalid_target_values": [],
+  "blank_values": {
+    "TotalCharges": 11
+  },
+  "passed": true,
+  "errors": []
+}
