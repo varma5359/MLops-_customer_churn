@@ -21,27 +21,28 @@ env/
 *.pem
 *.key
 
-# Local datasets and generated data
+# DVC local credentials/config
+.dvc/config.local
+
+# Local datasets (tracked via DVC pointer files; never commit CSV bytes to Git)
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
 
-# Model artifacts and experiment outputs
+# Generated model outputs (tracked as DVC outputs)
 artifacts/*
 !artifacts/.gitkeep
 mlruns/
 mlartifacts/
 
-# Notebooks
-.ipynb_checkpoints/
+# Local reports and logs
+logs/
+*.log
 
-# IDE and operating system files
+# Notebooks and IDE files
+.ipynb_checkpoints/
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
-
-# Logs
-*.log
-logs/
