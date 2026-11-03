@@ -24,19 +24,15 @@ env/
 # DVC local credentials/config
 .dvc/config.local
 
-# Local datasets (tracked via DVC pointer files; never commit CSV bytes to Git)
+# Local datasets (DVC pointer files are committed; raw bytes are not)
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
 
-# Generated model outputs (tracked as DVC outputs)
-artifacts/*
-!artifacts/.gitkeep
+# Local experiment stores and logs
 mlruns/
 mlartifacts/
-
-# Local reports and logs
 logs/
 *.log
 
