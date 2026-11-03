@@ -1,5 +1,5 @@
 [core]
     remote = origin
-['remote "origin"']
+[remote "origin"]
     url = s3://dvc
     endpointurl = https://dagshub.com/varma5359/mlops-customer-churn.s3
